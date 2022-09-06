@@ -1,15 +1,16 @@
 import React from "react";
 import {
+   StyleSheet,
     View, Text, Image,
     ImageBackground, TextInput,
     TouchableHighlight, Platform, ActivityIndicator
 } from "react-native";
 export default function register(){
     return (
-        <ImageBackground source={background} style={styleregister.container}>
+        <ImageBackground  style={styleregister.container}>
 
 
-        <View style={{ zIndex: 1, justifyContent: "center", position: "absolute", backgroundColor: "rgba(0,0,0,0.5)", width: 1000, height: 1000, display: this.state.hidedisplay }} >
+        <View style={{ zIndex: 1, justifyContent: "center", position: "absolute", backgroundColor: "rgba(0,0,0,0.5)", width: 1000, height: 1000 }} >
             <ActivityIndicator animating={true} size={70} />
         </View>
         <View style={styleregister.containerlogin}>

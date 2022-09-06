@@ -8,44 +8,30 @@
 
 
 
- import React, { Component } from 'react';
+ import React from 'react';
  import {
    StyleSheet,
-   View,
-   Button,
-   Text
  } from 'react-native';
- import { connect } from 'react-redux';
- import { changeCount } from './action/counts';
- 
-class App extends Component {
-  decrementCount() {
-    let {changeCount, count} = this.props;
-    count++
-    changeCount(count);
-  }
-  incrementCount() {
-    let {changeCount, count} = this.props;
-    count--
-    changeCount(count);
-  }
-  render() {
-    const { count } = this.props;
-    console.log(this.props)
+ import { NavigationContainer } from '@react-navigation/native';
+ import { createNativeStackNavigator } from '@react-navigation/native-stack';
+ const Stack=createNativeStackNavigator();
+ import login from './src/components/login/login';
+ import register from './src/components/register/register';
+
+
+
+function App() {
     return (
-      <View styles={styles.container}>
-        <Button
-          title="increment"
-          onPress={() => this.incrementCount()}
-        />
-        <Text>{count}</Text>
-        <Button
-          title="decrement"
-          onPress={() => this.decrementCount()}
-        />
-      </View>
+      <NavigationContainer >
+ <Stack.Navigator initialRouteName={"LOGIN"}  >
+     <Stack.Group>
+     <Stack.Screen name="LOGIN" component={login} options={{ headerShown:false}}/>
+        <Stack.Screen name={"REGISTER"}   component={register} />
+     </Stack.Group>
+     </Stack.Navigator>
+     </NavigationContainer>
     );
-  }
+  
 };
 
 const styles = StyleSheet.create({
@@ -66,4 +52,4 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(App)
+export default App

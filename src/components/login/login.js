@@ -1,13 +1,18 @@
 import React, { useEffect } from "react";
 import {
+   StyleSheet,
     View, Text, Image,
     ImageBackground, TextInput,
     TouchableHighlight, Platform, ActivityIndicator
 } from "react-native";
+import { useSelector,useDispatch } from 'react-redux';
+import { changeCount } from './action/counts';
+
 
 export default function login(props) {
     useEffect(() => {   
-        console.log(props)})
+        // console.log(props)
+    })
 
      setusername= (user)=> {
        
@@ -33,10 +38,10 @@ export default function login(props) {
     }
 
     return (
-        <ImageBackground source={background} style={stylelogin.container}>
+        <ImageBackground  style={stylelogin.container}>
 
 
-        <View style={{ zIndex: 1, justifyContent: "center", position: "absolute", backgroundColor: "rgba(0,0,0,0.5)", width: 1000, height: 1000, display: this.state.hidedisplay }} >
+        <View style={{ zIndex: 1, justifyContent: "center", position: "absolute", backgroundColor: "rgba(0,0,0,0.5)", width: 1000, height: 1000 }} >
             <ActivityIndicator animating={true} size={70} />
         </View>
         <View style={stylelogin.containerlogin}>
