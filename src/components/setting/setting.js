@@ -2,7 +2,7 @@ import {View} from 'react-native';
 import React, { useEffect } from 'react';
 
 
-function Home() {
+function Setting() {
   return <View />;
 }
-export default Home;
+export default Setting;

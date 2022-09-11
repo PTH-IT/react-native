@@ -15,8 +15,10 @@
  import { NavigationContainer } from '@react-navigation/native';
  import { createNativeStackNavigator } from '@react-navigation/native-stack';
  const Stack=createNativeStackNavigator();
- import login from './src/components/login/login';
- import register from './src/components/register/register';
+ import Login from './src/components/login/login';
+ import Register from './src/components/register/register';
+ import TabNavigator from './src/components/tabs/tab';
+
 
 
 
@@ -25,8 +27,13 @@ function App() {
       <NavigationContainer >
  <Stack.Navigator initialRouteName={"LOGIN"}  >
      <Stack.Group>
-     <Stack.Screen name="LOGIN" component={login} options={{ headerShown:false}}/>
-        <Stack.Screen name={"REGISTER"}   component={register} />
+     <Stack.Screen name="LOGIN" component={Login} options={{ headerShown:false}}/>
+    <Stack.Screen name={"REGISTER"}   component={Register} />
+      
+
+     </Stack.Group>
+     <Stack.Group>
+     <Stack.Screen name={"TAB"} options={{headerShown:false}}  component={TabNavigator} />
      </Stack.Group>
      </Stack.Navigator>
      </NavigationContainer>

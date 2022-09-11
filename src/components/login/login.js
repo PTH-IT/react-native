@@ -2,43 +2,42 @@ import {StyleSheet, View, Text, ImageBackground, TextInput} from 'react-native';
 import {connect} from 'react-redux';
 import {changeCount} from '../../../storeredux/action/acount';
 import Loading from '../loading/loading';
-import React ,{useState} from 'react';
-function login(props) {
-  let {changeCount, Acount} = props
-  const [errorUserName, setErrorUserName] = useState('')
-  const [errorPassWord, setErrorPassWord] = useState('')
+import React from 'react';
+function Login(props) {
+  let {changeCount, Acount} = props;
+  const [errorUserName, setErrorUserName] = React.useState('');
+  const [errorPassWord, setErrorPassWord] = React.useState('');
 
   const register = () => {
-    this.props.navigation.navigate('REGISTER')
+    props.navigation.navigate('REGISTER');
   };
 
   const handleUserName = event => {
-    changeCount({PassWord: Acount['PassWord'], UserName: event})
+    changeCount({PassWord: Acount.PassWord, UserName: event});
   };
   const handlePassWord = event => {
-    changeCount({PassWord: event, UserName: Acount['UserName']})
+    changeCount({PassWord: event, UserName: Acount.UserName});
   };
   const handleLogin = () => {
-    setErrorUserName('')
-    setErrorPassWord('')
+    setErrorUserName('');
+    setErrorPassWord('');
 
-    if(Acount.UserName.length == 0){
-      setErrorUserName('vui long nhap username')
-      setErrorPassWord('vui long nhap Password')
+    if (Acount.UserName.length == 0) {
+      setErrorUserName('vui long nhap username');
+      setErrorPassWord('vui long nhap Password');
+    } else if (Acount.UserName.length == 0) {
+      setErrorUserName('vui long nhap username');
+    } else if (Acount.PassWord.length == 0) {
+      setErrorPassWord('vui long nhap Password');
+    } else {
+      props.navigation.navigate('TAB');
+      console.log(Acount);
     }
-    else if(Acount.UserName.length == 0) {
-      setErrorUserName('vui long nhap username')
-    }else if(Acount.PassWord.length == 0) {
-      setErrorPassWord('vui long nhap Password')
-    }else {
-      console.log(Acount)
-
-    }
-  }
+  };
 
   return (
-    <ImageBackground style={stylelogin.container}>
-      <Loading  />
+    <ImageBackground source={{uri:'https://i.pinimg.com/564x/fa/b2/46/fab246d26cf67ab98164191e9ead0344.jpg'}} style={stylelogin.container}>
+      <Loading />
       <View style={stylelogin.containerlogin}>
         <View style={stylelogin.containerregit}>
           <View style={stylelogin.containerinput}>
@@ -49,7 +48,13 @@ function login(props) {
               style={stylelogin.textinput}
               onChangeText={handleUserName}
             />
-            <Text style={[stylelogin.texterror,{display: errorUserName.length > 0 ?'flex':'none'}]}>{errorUserName}</Text>
+            <Text
+              style={[
+                stylelogin.texterror,
+                {display: errorUserName.length > 0 ? 'flex' : 'none'},
+              ]}>
+              {errorUserName}
+            </Text>
             <Text style={stylelogin.textlabel}>Password</Text>
             <TextInput
               placeholder={'password'}
@@ -58,13 +63,19 @@ function login(props) {
               secureTextEntry={true}
               onChangeText={handlePassWord}
             />
-            <Text style={[stylelogin.texterror,{display: errorPassWord.length > 0 ?'flex':'none'}]}>{errorPassWord}</Text>
-            <Text style={stylelogin.textlogin} onPress={handleLogin}>LOGIN</Text>
             <Text
-              style={stylelogin.textregit}
-              onPress={() => register.bind(this)}>
-              REGISTER
+              style={[
+                stylelogin.texterror,
+                {display: errorPassWord.length > 0 ? 'flex' : 'none'},
+              ]}>
+              {errorPassWord}
             </Text>
+            <View>
+            <Text style={stylelogin.bottomlogin} onPress={handleLogin}>LOGIN</Text>
+            <Text
+              style={stylelogin.bottomregit}
+              onPress={register}>REGISTER</Text>
+            </View>
           </View>
         </View>
       </View>
@@ -77,7 +88,7 @@ const mapDispatchToProps = dispatch => ({
     dispatch(changeCount(data));
   },
 });
-export default connect(mapStateToProps, mapDispatchToProps)(login);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
 
 const stylelogin = StyleSheet.create({
   container: {
@@ -86,7 +97,7 @@ const stylelogin = StyleSheet.create({
     alignItems: 'center',
     width: null,
     height: null,
-    resizeMode: 'center',
+    resizeMode: 'cover',
   },
   containerlogin: {
     backgroundColor: 'rgba(0,0,0,0.5)',
@@ -100,22 +111,22 @@ const stylelogin = StyleSheet.create({
     resizeMode: 'contain',
   },
   containerregit: {
-    marginLeft: 20,
     flex: 2,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
   },
-
   containerinput: {
     flex: 2,
+    padding:20
   },
   textinput: {
+    padding:15,
     backgroundColor: 'rgba(0,0,0,0.5)',
     marginTop: 10,
     borderRadius: 4,
     color: 'white',
-    width: 330,
+    width: '100%',
   },
   textlabel: {
     marginTop: 10,
@@ -130,53 +141,26 @@ const stylelogin = StyleSheet.create({
     fontSize: 20,
     color: 'red',
   },
-  textregit: {
+  bottomlogin: {
+    width:150,
     fontStyle: 'italic',
     alignSelf: 'center',
     borderRadius: 5,
-    paddingLeft: 40,
-    paddingRight: 40,
-    paddingBottom: 5,
-    paddingTop: 5,
-    backgroundColor: 'white',
-    color: 'black',
-    marginTop: 8,
-  },
-  textlogin: {
-    fontStyle: 'italic',
-    alignSelf: 'center',
-    borderRadius: 5,
-    paddingLeft: 40,
-    paddingRight: 40,
-    paddingBottom: 5,
-    paddingTop: 5,
+    padding: 10,
     backgroundColor: 'blue',
     color: 'white',
-    marginTop: 8,
+    marginTop: 20,
+    textAlign: 'center',
   },
-  row: {
-    flexDirection: 'row',
-    flex: 0,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  line: {
-    height: 2,
-    flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.2)',
-  },
-
-  connet: {
-    flex: 1,
-    flexDirection: 'row',
-    backgroundColor: 'rgba(0,0,0,0)',
-  },
-  imageicon: {
-    flex: 1,
-    backgroundColor: 'rgba(0,0,0,0)',
-    alignItems: 'center',
-    width: 40,
-    height: 40,
-    resizeMode: 'contain',
+  bottomregit: {
+    width:150,
+    fontStyle: 'italic',
+    alignSelf: 'center',
+    borderRadius: 5,
+    padding: 10,
+    backgroundColor: 'white',
+    color: 'black',
+    marginTop: 20,
+    textAlign: 'center',
   },
 });
