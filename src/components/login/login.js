@@ -3,7 +3,9 @@ import {connect} from 'react-redux';
 import {changeCount} from '../../../storeredux/action/acount';
 import Loading from '../loading/loading';
 import React from 'react';
+import {getaccount} from '../../database/mongodb/database'
 function Login(props) {
+  getaccount
   let {changeCount, Acount} = props;
   const [errorUserName, setErrorUserName] = React.useState('');
   const [errorPassWord, setErrorPassWord] = React.useState('');
@@ -31,7 +33,7 @@ function Login(props) {
       setErrorPassWord('vui long nhap Password');
     } else {
       props.navigation.navigate('TAB');
-      console.log(Acount);
+     
     }
   };
 

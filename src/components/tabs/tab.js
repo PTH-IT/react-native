@@ -48,7 +48,7 @@ function TabNavigator(props) {
           },
           tabBarLabel: "Settings",
           tabBarIcon: ({ focused, color, size }) => {
-            console.log(color)
+          
             return <Ionicons name='md-settings-outline' size={size} color={color} />;
           },
         }
