@@ -18,11 +18,13 @@
  import Login from './src/components/login/login';
  import Register from './src/components/register/register';
  import TabNavigator from './src/components/tabs/tab';
+ import {getaccount } from './src/database/mongodb/database'
 
 
 
 
 function App() {
+  
     return (
       <NavigationContainer >
  <Stack.Navigator initialRouteName={"LOGIN"}  >

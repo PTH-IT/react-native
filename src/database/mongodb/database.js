@@ -1,4 +1,4 @@
-import {accountLogin ,accountmodel} from '../model/account'
+import {accountLogin } from '../model/account'
 import Realm, { BSON } from "realm";
 
 const app = new Realm.App({ id: "application-0-rwesj" });
@@ -9,8 +9,6 @@ const app = new Realm.App({ id: "application-0-rwesj" });
   try {
     
     const user = app.logIn(credentials);
-   console.log(user)
-
   } catch (err) {
 
     console.log("Failed to log in");
@@ -18,7 +16,7 @@ const app = new Realm.App({ id: "application-0-rwesj" });
   }
 
   export const realm =  Realm.open({
-    schema: [ accountLogin,accountmodel],
+    schema: [ accountLogin],
     sync: {
       user: app.currentUser,
       partitionValue: "MyPartitionValue",
@@ -26,15 +24,13 @@ const app = new Realm.App({ id: "application-0-rwesj" });
 
   })
 
-  export const getaccount = realm.then((realm) => {
-    
+  export const getaccount =realm.then((realm) => {
     const data=realm.objects("accountIsLogging")
-    console.log(data1)
-   
     return data
 })
+  
 
-export const addaccount = (phone,name,pass) => {
+export const addaccount = (phone,name,userName) => {
     let alice;
     realm.then((realm) => {
         realm.write(() => {
@@ -43,7 +39,7 @@ export const addaccount = (phone,name,pass) => {
               _id: new BSON.ObjectID(),
               phone:phone,
             name: name,
-            userName: pass,
+            userName: userName,
             
             });
         });

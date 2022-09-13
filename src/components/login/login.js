@@ -3,13 +3,24 @@ import {connect} from 'react-redux';
 import {changeCount} from '../../../storeredux/action/acount';
 import Loading from '../loading/loading';
 import React from 'react';
-import {getaccount} from '../../database/mongodb/database'
+import {getaccount ,addaccount} from '../../database/mongodb/database'
+
 function Login(props) {
-  getaccount
+  
   let {changeCount, Acount} = props;
   const [errorUserName, setErrorUserName] = React.useState('');
   const [errorPassWord, setErrorPassWord] = React.useState('');
+  React.useEffect(() => {
+    getaccount.then(data => {
+      console.log(data);
+if (data != null) {
+      props.navigation.navigate('TAB');
+    }
+    })
+    
+  }, [1]);
 
+ 
   const register = () => {
     props.navigation.navigate('REGISTER');
   };
@@ -32,6 +43,7 @@ function Login(props) {
     } else if (Acount.PassWord.length == 0) {
       setErrorPassWord('vui long nhap Password');
     } else {
+      addaccount('1',Acount.UserName,Acount.UserName)
       props.navigation.navigate('TAB');
      
     }
