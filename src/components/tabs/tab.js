@@ -15,13 +15,13 @@ function TabNavigator(props) {
     <Tab.Navigator screenOptions={{
 
       tabBarStyle: {
-        position: 'absolute',
-        bottom: 10,
-        left: 20,
-        right: 20,
-        elevation: 20,
+        // position: 'absolute',
+        // bottom: 10,
+        // left: 20,
+        // right: 20,
+        // elevation: 20,
         backgroundColor: '#ffffff',
-        borderRadius: 15,
+        borderRadius: 10,
         height: 60,
 
       }
