@@ -24,23 +24,38 @@
  import {getaccount } from './src/database/mongodb/database'
  import {connect} from 'react-redux';
  import {changeLogging} from './storeredux/action/loging';
+ import {changeLanguages} from './storeredux/action/languages';
+
 
 
 
 function App(props) {
 
-  let {Logging,changelogging}=props
+  let {Logging,changelogging,LanGuages,changeLanguages}=props
   React.useEffect( () => {
    
-    (async() => {const awesome_value = await AsyncStorage.getItem('account')
-    if (awesome_value != null ){
+    (
+      async() => {
+      const accountStorage = await AsyncStorage.getItem('account')
+    if (accountStorage != null ){
       changelogging('TAB')
     }else {
       changelogging('LOGIN')
     }
-    console.log(awesome_value)} 
-    
-    ) ();
+
+   }) ();
+
+   (
+    async() => {
+    const languageStorage = await AsyncStorage.getItem('language')
+  if (languageStorage != null ){
+    changeLanguages(languageStorage)
+  }
+
+ }) ();
+
+
+
     
   }, [1]);
  
@@ -70,6 +85,10 @@ const mapDispatchToProps = dispatch => ({
   changelogging: data => {
     dispatch(changeLogging(data));
   },
+  changeLanguages: data => {
+    dispatch(changeLanguages(data));
+  },
+  cha
 });
 
 
