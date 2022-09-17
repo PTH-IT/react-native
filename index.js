@@ -10,6 +10,7 @@ import reducers from './storeredux/reducers/index';
 import { createStore, applyMiddleware } from 'redux';
 import  'react-native-get-random-values'
 const store = createStore(reducers)
+
 const RNRedux = () => (
   <>    
     <Provider store = { store }>

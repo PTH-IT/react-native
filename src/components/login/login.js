@@ -13,6 +13,9 @@ function Login(props) {
 
  
   const register = () => {
+    (async() => {
+      await AsyncStorage.removeItem('account')
+    }) ();
     props.navigation.navigate('REGISTER');
   };
 
