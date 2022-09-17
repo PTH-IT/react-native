@@ -1,24 +1,15 @@
-import {StyleSheet, View, Text, ImageBackground, TextInput} from 'react-native';
+import {StyleSheet, View, Text, ImageBackground, TextInput } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {connect} from 'react-redux';
 import {changeCount} from '../../../storeredux/action/acount';
 import Loading from '../loading/loading';
 import React from 'react';
-import {getaccount ,addaccount} from '../../database/mongodb/database'
 
 function Login(props) {
-  
-  let {changeCount, Acount} = props;
+  let {changeCount, Acount ,Logging} = props;
   const [errorUserName, setErrorUserName] = React.useState('');
   const [errorPassWord, setErrorPassWord] = React.useState('');
-  React.useEffect(() => {
-    getaccount.then(data => {
-      console.log(data);
-if (data != null) {
-      props.navigation.navigate('TAB');
-    }
-    })
-    
-  }, [1]);
+  
 
  
   const register = () => {
@@ -43,7 +34,7 @@ if (data != null) {
     } else if (Acount.PassWord.length == 0) {
       setErrorPassWord('vui long nhap Password');
     } else {
-      addaccount('1',Acount.UserName,Acount.UserName)
+      AsyncStorage.setItem('account',JSON.stringify(Acount))
       props.navigation.navigate('TAB');
      
     }
