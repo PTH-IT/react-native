@@ -1,4 +1,4 @@
-import {LOGGING_CHANGE} from '../constants/logging';
+import {LOGGING_CHANGE} from '../constants/constants';
 const initialState = 
     "DEFAULT"
 ;

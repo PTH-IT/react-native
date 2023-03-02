@@ -1,16 +1,21 @@
 import {StyleSheet, View, Text, ImageBackground, TextInput } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {connect} from 'react-redux';
+import {connect, createDispatchHook} from 'react-redux';
 import {changeCount} from '../../../storeredux/action/acount';
 import Loading from '../loading/loading';
 import React from 'react';
-
+import LoginAPI from '../../api/login'
+import { bindActionCreators } from 'redux';
+import {getProductsError, getProducts, getProductsPending}  from  '../../../storeredux/reducers/api'
+import {getAccount}  from  '../../../storeredux/reducers/accountReducer'
+import { useDispatch } from 'react-redux'
 function Login(props) {
-  let {changeCount, Acount ,Logging} = props;
+  const dispatch = useDispatch()
+  let {AccountAction, Account ,ApiAction} = props;
   const [errorUserName, setErrorUserName] = React.useState('');
   const [errorPassWord, setErrorPassWord] = React.useState('');
-  
 
+ console.log( props)
  
   const register = () => {
     
@@ -18,25 +23,26 @@ function Login(props) {
   };
 
   const handleUserName = event => {
-    changeCount({PassWord: Acount.PassWord, UserName: event});
+    AccountAction({PassWord: Account.PassWord, UserName: event});
   };
   const handlePassWord = event => {
-    changeCount({PassWord: event, UserName: Acount.UserName});
+    AccountAction({PassWord: event, UserName: Account.UserName});
   };
-  const handleLogin = () => {
+  const   handleLogin =  () =>  {
     setErrorUserName('');
     setErrorPassWord('');
 
-    if (Acount.UserName.length == 0) {
+    if (Account.UserName.length == 0) {
       setErrorUserName('vui long nhap username');
       setErrorPassWord('vui long nhap Password');
-    } else if (Acount.UserName.length == 0) {
+    } else if (Account.UserName.length == 0) {
       setErrorUserName('vui long nhap username');
-    } else if (Acount.PassWord.length == 0) {
+    } else if (Account.PassWord.length == 0) {
       setErrorPassWord('vui long nhap Password');
     } else {
-      AsyncStorage.setItem('account',JSON.stringify(Acount))
-      props.navigation.navigate('TAB');
+      ApiAction(Account.UserName,Account.PassWord)
+      // AsyncStorage.setItem('account',JSON.stringify(Acount))
+      // props.navigation.navigate('TAB');
      
     }
   };
@@ -88,12 +94,18 @@ function Login(props) {
     </ImageBackground>
   );
 }
-const mapStateToProps = state => state;
-const mapDispatchToProps = dispatch => ({
-  changeCount: data => {
-    dispatch(changeCount(data));
-  },
-});
+const mapStateToProps = state => ({
+  Account:getAccount(state),
+  API:{error: getProductsError(state),
+  products: getProducts(state),
+  pending: getProductsPending(state)
+  }
+})
+const mapDispatchToProps = dispatch => bindActionCreators({
+  ApiAction : LoginAPI,
+  AccountAction: changeCount
+  
+}, dispatch);
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
 
 const stylelogin = StyleSheet.create({

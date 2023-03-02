@@ -9,7 +9,6 @@ import {
   let {Logging} = props;
 
     React.useEffect(() => {
-    console.log(props);
         props.navigation.navigate(Logging);
 
     }, [Logging]);

@@ -1,1 +1,0 @@
-export const LANGUAGES_CHANGE = 'LANGUAGES_CHANGE'
