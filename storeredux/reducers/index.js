@@ -2,7 +2,7 @@ import {combineReducers} from 'redux';
 import acountReducer from './accountReducer';
 import languagesReducer from './languagesReducer';
 import loggingReducer from './loggingReducer';
-import ApiReducer from './api';
+import ApiReducer from './loginReducer';
 
 
 const reducers = combineReducers({

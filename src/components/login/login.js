@@ -6,8 +6,10 @@ import Loading from '../loading/loading';
 import React ,{ useEffect } from 'react';
 import LoginAPI from '../../api/login'
 import { bindActionCreators } from 'redux';
-import {getProductsError, getProducts, getProductsPending}  from  '../../../storeredux/reducers/api'
+import {getLoginError, getLogin, getLoginPending}  from  '../../../storeredux/reducers/loginReducer'
 import {getAccount}  from  '../../../storeredux/reducers/accountReducer'
+import {LoginPending, LoginSuccess, LoginError} from '../../../storeredux/action/login';
+
 function Login(props) {
   let {AccountAction, Account ,ApiAction,API} = props;
   const [errorUserName, setErrorUserName] = React.useState('');
@@ -21,12 +23,11 @@ function Login(props) {
   };
   
   useEffect(() => {
-    console.log(API.products != null)
-    if (API.products != null){
-      AsyncStorage.setItem('token',JSON.stringify(API.products))
+    if (API.response != null){
+      AsyncStorage.setItem('token',JSON.stringify(API.response))
       props.navigation.navigate('TAB');
     }
-  },API.pending);
+  },[API.pending,API.response]);
   const handleUserName = event => {
     AccountAction({PassWord: Account.PassWord, UserName: event});
   };
@@ -101,9 +102,9 @@ function Login(props) {
 }
 const mapStateToProps = state => ({
   Account:getAccount(state),
-  API:{error: getProductsError(state),
-  products: getProducts(state),
-  pending: getProductsPending(state)
+  API:{error: getLoginError(state),
+  response: getLogin(state),
+  pending: getLoginPending(state)
   }
 })
 const mapDispatchToProps = dispatch => bindActionCreators({

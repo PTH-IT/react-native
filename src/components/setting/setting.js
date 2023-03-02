@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import  Ionicons   from  'react-native-vector-icons/Ionicons';
 import { connect } from 'react-redux';
 import {changeCount} from '../../../storeredux/action/acount';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 
@@ -15,7 +16,7 @@ function Setting(props) {
 
   const logoutHandler = () => {
     (async() => {
-      await AsyncStorage.removeItem('account')
+      await AsyncStorage.removeItem('token')
     }) ();
     changeCount({PassWord: '', UserName: ''})
     props.navigation.navigate('LOGIN');

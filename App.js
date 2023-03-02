@@ -72,7 +72,7 @@ function App(props) {
           console.log("OneSignal: notification opened:", notification);
         })
         //get account from Storage
-        const accountStorage = await AsyncStorage.getItem('account')
+        const accountStorage = await AsyncStorage.getItem('token')
         if (accountStorage != null) {
           changelogging('TAB')
         } else {
