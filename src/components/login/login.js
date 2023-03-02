@@ -3,15 +3,13 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {connect, createDispatchHook} from 'react-redux';
 import {changeCount} from '../../../storeredux/action/acount';
 import Loading from '../loading/loading';
-import React from 'react';
+import React ,{ useEffect } from 'react';
 import LoginAPI from '../../api/login'
 import { bindActionCreators } from 'redux';
 import {getProductsError, getProducts, getProductsPending}  from  '../../../storeredux/reducers/api'
 import {getAccount}  from  '../../../storeredux/reducers/accountReducer'
-import { useDispatch } from 'react-redux'
 function Login(props) {
-  const dispatch = useDispatch()
-  let {AccountAction, Account ,ApiAction} = props;
+  let {AccountAction, Account ,ApiAction,API} = props;
   const [errorUserName, setErrorUserName] = React.useState('');
   const [errorPassWord, setErrorPassWord] = React.useState('');
 
@@ -21,7 +19,14 @@ function Login(props) {
     
     props.navigation.navigate('REGISTER');
   };
-
+  
+  useEffect(() => {
+    console.log(API.products != null)
+    if (API.products != null){
+      AsyncStorage.setItem('token',JSON.stringify(API.products))
+      props.navigation.navigate('TAB');
+    }
+  },API.pending);
   const handleUserName = event => {
     AccountAction({PassWord: Account.PassWord, UserName: event});
   };
@@ -49,7 +54,7 @@ function Login(props) {
 
   return (
     <ImageBackground source={{uri:'https://i.pinimg.com/564x/fa/b2/46/fab246d26cf67ab98164191e9ead0344.jpg'}} style={stylelogin.container}>
-      <Loading />
+      <Loading display={API.pending ?"flex":"none"}/>
       <View style={stylelogin.containerlogin}>
         <View style={stylelogin.containerregit}>
           <View style={stylelogin.containerinput}>
