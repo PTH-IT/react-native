@@ -7,7 +7,7 @@ import {RegisterPending, RegisterSuccess, RegisterError} from '../../storeredux/
 
 
 
- export default function RegisterAPI(username, password)  {
+ export default function RegisterAPI(username, password,email)  {
   return dispatch => {
     dispatch(RegisterPending());
 
@@ -18,12 +18,12 @@ import {RegisterPending, RegisterSuccess, RegisterError} from '../../storeredux/
         headers:{"Content-Type":"application/json"},
         data:{
         "UserID": username,
-        "Password": password
+        "Password": password,
+        "email": email
       }
       }).then((response) => {
         dispatch(RegisterError(null));
         dispatch(RegisterSuccess(response.data));
-            // return response.data;
       }).catch((error)=>{
         dispatch(RegisterSuccess(null));
         dispatch(RegisterError(error.response.data));

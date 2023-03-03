@@ -12,18 +12,20 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import {changeCount} from '@reduxaction/acount';
 import RegisterAPI from '../../api/register'
+import { useEffect } from "react";
 
  function Register(props){
-  const {Accout,Register,RegisterAction,AccountAction} = props;
+  console.log(props)
+  const {Account,Register,RegisterAction,AccountAction} = props;
     const [errorName, seterrorName] = React.useState('');
     const [errorUserName, setErrorUserName] = React.useState('');
-    const [errorPhoneNumber, seterrorPhoneNumber] = React.useState('');
+    const [errorEmail, seterrorEmail] = React.useState('');
   const [errorPassWord, setErrorPassWord] = React.useState('');
   const [errorConformPassWord, seterrorConformPassWord] = React.useState('');
   const resetState = event =>{
     seterrorName('')
     setErrorUserName('')
-    seterrorPhoneNumber('')
+    seterrorEmail('')
     setErrorPassWord('')
     seterrorConformPassWord('')
   }
@@ -40,6 +42,7 @@ import RegisterAPI from '../../api/register'
     AccountAction({Name: Account.Name, UserName: Account.UserName,Email: Account.Email,PassWord: event,ConfirmPassWord: Account.ConfirmPassWord});
   };
   const handleConfirmPassWord = event => {
+    seterrorConformPassWord('')
     AccountAction({Name: Account.Name, UserName: Account.UserName,Email: Account.Email,PassWord: Account.PassWord,ConfirmPassWord: event});
   };
   const checkConfirmPassWord = event => {
@@ -48,12 +51,48 @@ import RegisterAPI from '../../api/register'
     }
   };
   const handelRegister = event => {
-    
+    if (  Account.Name.length == 0 ){
+      seterrorName("please enter name")
+
+    }
+    else if ( Account.UserName.length == 0 ){
+      setErrorUserName("please enter username")
+
+    } 
+    else if ( Account.Email.length == 0 ){
+      seterrorEmail("please enter email address")
+    }
+    else if ( Account.PassWord.length == 0 ){
+      setErrorPassWord("please enter password")
+    }
+    else if (  Account.ConfirmPassWord != Account.PassWord){
+      seterrorConformPassWord("confirm password is  wrong")
+    }
+    else {
+      RegisterAction(Account.UserName, Account.PassWord, Account.Email,)
+    }
   }
+
+  useEffect(() => {
+    if (Register.response != null){
+      props.navigation.navigate('LOGIN');
+    }else if (Register.error != null){
+      Register.error.forEach( (element,index) => {
+        if (element.type == "username"){
+          setErrorUserName("username is exist")
+        }
+        if (element.type == "email"){
+          seterrorEmail("email is exist")
+        }
+        
+      });
+    }
+
+  },[Register.pending,Register.response]);
   
     return (
         <ImageBackground source={{uri:'https://i.pinimg.com/564x/fa/b2/46/fab246d26cf67ab98164191e9ead0344.jpg'}}  style={styleregister.container}>
-<Loading />
+ <Loading display={Register.pending ?"flex":"none"}/>
         <View style={styleregister.containerlogin}>
 
             <View style={styleregister.containerregit}>
@@ -79,13 +118,13 @@ import RegisterAPI from '../../api/register'
             </Text>
 
                     <Text style={styleregister.textlabel} >Email</Text>
-                    <TextInput    placeholder={"Email"} placeholderTextColor={"white"} style={styleregister.textinput} onChangeText={handleName}/>
+                    <TextInput    placeholder={"Email"} placeholderTextColor={"white"} style={styleregister.textinput} onChangeText={handleEmail}/>
                     <Text
               style={[
                 styleregister.texterror,
-                {display: errorPhoneNumber.length > 0 ? 'flex' : 'none'},
+                {display: errorEmail.length > 0 ? 'flex' : 'none'},
               ]}>
-              {errorPhoneNumber}
+              {errorEmail}
             </Text>
 
                     <Text style={styleregister.textlabel} >Password</Text>
@@ -99,7 +138,7 @@ import RegisterAPI from '../../api/register'
             </Text>
 
                     <Text style={styleregister.textlabel} >Confirm Password</Text>
-                    <TextInput  placeholder={"Confirm Password"} placeholderTextColor={"white"} style={styleregister.textinput} secureTextEntry={true} onChangeText={handleConfirmPassWord} onTouchEnd={checkConfirmPassWord}/>
+                    <TextInput  placeholder={"Confirm Password"} placeholderTextColor={"white"} style={styleregister.textinput} secureTextEntry={true} onChangeText={handleConfirmPassWord} onBlur={checkConfirmPassWord}/>
                     <Text
               style={[
                 styleregister.texterror,
@@ -117,8 +156,8 @@ import RegisterAPI from '../../api/register'
     </ImageBackground>
     );
 }
-const mapStateToProps = satte =>({
-  Accout:getAccount(state),
+const mapStateToProps = state =>({
+  Account:getAccount(state),
   Register:{
     error: getRegisterError(state),
     response: getRegister(state),

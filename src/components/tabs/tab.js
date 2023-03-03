@@ -9,8 +9,6 @@ import  Ionicons   from  'react-native-vector-icons/Ionicons';
 
 const Tab = createBottomTabNavigator();
 function TabNavigator(props) {
-
-  console.log(props)
   return (
 
     <Tab.Navigator screenOptions={{

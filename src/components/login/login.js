@@ -15,7 +15,6 @@ function Login(props) {
   const [errorUserName, setErrorUserName] = React.useState('');
   const [errorPassWord, setErrorPassWord] = React.useState('');
 
- console.log( props)
  
   const register = () => {
     
