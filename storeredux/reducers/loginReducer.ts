@@ -1,4 +1,4 @@
-import {LOGIN_PENDING,LOGIN_SUCCESS,LOGIN_ERROR} from '../constants/constants';
+import {LOGIN_PENDING,LOGIN_SUCCESS,LOGIN_ERROR} from '@Constants/constants';
 const initialState = {
   pending: false,
   response: null,
@@ -29,6 +29,6 @@ const LoginReducer = (state = initialState, action) => {
     }
   }
 export default LoginReducer;
-export const getLogin = state => state.Api.response;
-export const getLoginPending = state => state.Api.pending;
-export const getLoginError = state => state.Api.error;
+export const getLogin = state => state.Login.response;
+export const getLoginPending = state => state.Login.pending;
+export const getLoginError = state => state.Login.error;

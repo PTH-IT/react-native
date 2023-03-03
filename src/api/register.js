@@ -3,27 +3,30 @@ import { useState } from "react";
 import { connect } from 'react-redux';
 import {changeResponse} from '../../storeredux/action/login';
 
-import {LoginPending, LoginSuccess, LoginError} from '../../storeredux/action/login';
+import {RegisterPending, RegisterSuccess, RegisterError} from '../../storeredux/action/register';
 
 
 
- export default function LoginAPI(username, password)  {
+ export default function RegisterAPI(username, password)  {
   return dispatch => {
-    dispatch(LoginPending());
+    dispatch(RegisterPending());
 
     const baseUrl = "https://apigolang-production.up.railway.app"
      axios({
         method: 'post',
-        url: `${baseUrl}/login`,
+        url: `${baseUrl}/register`,
         headers:{"Content-Type":"application/json"},
-        data:{"UserID": username,"Password": password}
+        data:{
+        "UserID": username,
+        "Password": password
+      }
       }).then((response) => {
-        dispatch(LoginError(null));
-        dispatch(LoginSuccess(response.data));
+        dispatch(RegisterError(null));
+        dispatch(RegisterSuccess(response.data));
             // return response.data;
       }).catch((error)=>{
-        dispatch(LoginSuccess(null));
-        dispatch(LoginError(error.response.data));
+        dispatch(RegisterSuccess(null));
+        dispatch(RegisterError(error.response.data));
       });
 
     }

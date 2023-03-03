@@ -16,16 +16,15 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 const Stack = createNativeStackNavigator();
-import Default from './src/components/default/default';
+import Default from '~/components/default/default';
 
-import Login from './src/components/login/login';
-import Register from './src/components/register/register';
-import TabNavigator from './src/components/tabs/tab';
-import { getaccount } from './src/database/mongodb/database'
+import Login from '~/components/login/login';
+import Register from '~/components/register/register';
+import TabNavigator from '~/components/tabs/tab';
 import { connect } from 'react-redux';
-import { changeLogging } from './storeredux/action/loging';
-import { changeLanguages } from './storeredux/action/languages';
-import { changeCount } from './storeredux/action/acount';
+import { changeLogging } from '@reduxaction/loging';
+import { changeLanguages } from '@reduxaction/languages';
+import { changeCount } from '@reduxaction/acount';
 // import { initializeApp } from "firebase/app";
 // import { getAnalytics } from "firebase/analytics";
 import pushNotification from './src/pushnotification/index'

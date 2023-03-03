@@ -1,14 +1,14 @@
 import {StyleSheet, View, Text, ImageBackground, TextInput } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {connect, createDispatchHook} from 'react-redux';
-import {changeCount} from '../../../storeredux/action/acount';
+import {changeCount} from '@reduxaction/acount';
 import Loading from '../loading/loading';
 import React ,{ useEffect } from 'react';
 import LoginAPI from '../../api/login'
 import { bindActionCreators } from 'redux';
-import {getLoginError, getLogin, getLoginPending}  from  '../../../storeredux/reducers/loginReducer'
-import {getAccount}  from  '../../../storeredux/reducers/accountReducer'
-import {LoginPending, LoginSuccess, LoginError} from '../../../storeredux/action/login';
+import {getLoginError, getLogin, getLoginPending}  from  '@reduxreducers/loginReducer'
+import {getAccount}  from  '@reduxreducers/accountReducer'
+import {LoginPending, LoginSuccess, LoginError} from '@reduxaction/login';
 
 function Login(props) {
   let {AccountAction, Account ,ApiAction,API} = props;

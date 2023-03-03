@@ -5,7 +5,14 @@
         "target": "ES2020",
         "jsx": "react",
         "strictNullChecks": true,
-        "strictFunctionTypes": true
+        "strictFunctionTypes": true,
+        "baseUrl": ".",
+        "paths": {
+          "~/*": ["src/*"],
+          "@reduxreducers/*": ["storeredux/reducers/*",],
+          "@reduxaction/*": ["storeredux/action/*"],
+          "@Constants/*": ["storeredux/constants/*"],
+        }
     },
     "exclude": [
         "node_modules",

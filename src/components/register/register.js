@@ -6,14 +6,51 @@ import {
     TouchableHighlight, Platform, ActivityIndicator
 } from "react-native";
 import Loading from '../loading/loading';
+import {getRegisterError, getRegister, getRegisterPending}  from  '@reduxreducers/registerReducer'
+import {getAccount}  from  '@reduxreducers/accountReducer'
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import {changeCount} from '@reduxaction/acount';
+import RegisterAPI from '../../api/register'
 
- function Register(){
+ function Register(props){
+  const {Accout,Register,RegisterAction,AccountAction} = props;
     const [errorName, seterrorName] = React.useState('');
     const [errorUserName, setErrorUserName] = React.useState('');
     const [errorPhoneNumber, seterrorPhoneNumber] = React.useState('');
   const [errorPassWord, setErrorPassWord] = React.useState('');
   const [errorConformPassWord, seterrorConformPassWord] = React.useState('');
-
+  const resetState = event =>{
+    seterrorName('')
+    setErrorUserName('')
+    seterrorPhoneNumber('')
+    setErrorPassWord('')
+    seterrorConformPassWord('')
+  }
+  const handleName = event => {
+    AccountAction({Name: event, UserName: Account.UserName,Email: Account.Email,PassWord: Account.PassWord,ConfirmPassWord: Account.ConfirmPassWord});
+  };
+  const handleUserName = event => {
+    AccountAction({Name: Account.Name, UserName: event,Email: Account.Email,PassWord: Account.PassWord,ConfirmPassWord: Account.ConfirmPassWord});
+  };
+  const handleEmail = event => {
+    AccountAction({Name: Account.Name, UserName: Account.UserName,Email: event,PassWord: Account.PassWord,ConfirmPassWord: Account.ConfirmPassWord,});
+  };
+  const handlePassWord = event => {
+    AccountAction({Name: Account.Name, UserName: Account.UserName,Email: Account.Email,PassWord: event,ConfirmPassWord: Account.ConfirmPassWord});
+  };
+  const handleConfirmPassWord = event => {
+    AccountAction({Name: Account.Name, UserName: Account.UserName,Email: Account.Email,PassWord: Account.PassWord,ConfirmPassWord: event});
+  };
+  const checkConfirmPassWord = event => {
+    if (Account.ConfirmPassWord != Account.PassWord){
+      seterrorConformPassWord("confirm password is  wrong")
+    }
+  };
+  const handelRegister = event => {
+    
+  }
+  
     return (
         <ImageBackground source={{uri:'https://i.pinimg.com/564x/fa/b2/46/fab246d26cf67ab98164191e9ead0344.jpg'}}  style={styleregister.container}>
 <Loading />
@@ -23,7 +60,7 @@ import Loading from '../loading/loading';
                 <View style={styleregister.containerinput}>
 
                 <Text style={styleregister.textlabel} >Name</Text>
-                    <TextInput   placeholder={"name"} placeholderTextColor={"white"} style={styleregister.textinput}></TextInput>
+                    <TextInput   placeholder={"name"} placeholderTextColor={"white"} style={styleregister.textinput}  onChangeText={handleName}/>
                     <Text
               style={[
                 styleregister.texterror,
@@ -32,7 +69,7 @@ import Loading from '../loading/loading';
               {errorName}
             </Text>
             <Text style={styleregister.textlabel} >User name</Text>
-                    <TextInput    placeholder={"User name"} placeholderTextColor={"white"} style={styleregister.textinput}></TextInput>
+                    <TextInput    placeholder={"User name"} placeholderTextColor={"white"} style={styleregister.textinput} onChangeText={handleUserName}/>
                     <Text
               style={[
                 styleregister.texterror,
@@ -41,8 +78,8 @@ import Loading from '../loading/loading';
               {errorUserName}
             </Text>
 
-                    <Text style={styleregister.textlabel} >Phone number</Text>
-                    <TextInput  keyboardType="numeric"  placeholder={"Phone number"} placeholderTextColor={"white"} style={styleregister.textinput}></TextInput>
+                    <Text style={styleregister.textlabel} >Email</Text>
+                    <TextInput    placeholder={"Email"} placeholderTextColor={"white"} style={styleregister.textinput} onChangeText={handleName}/>
                     <Text
               style={[
                 styleregister.texterror,
@@ -52,7 +89,7 @@ import Loading from '../loading/loading';
             </Text>
 
                     <Text style={styleregister.textlabel} >Password</Text>
-                    <TextInput  placeholder={"Password"} placeholderTextColor={"white"} style={styleregister.textinput} secureTextEntry={true}></TextInput>
+                    <TextInput  placeholder={"Password"} placeholderTextColor={"white"} style={styleregister.textinput} secureTextEntry={true} onChangeText={handlePassWord}/>
                     <Text
               style={[
                 styleregister.texterror,
@@ -62,7 +99,7 @@ import Loading from '../loading/loading';
             </Text>
 
                     <Text style={styleregister.textlabel} >Confirm Password</Text>
-                    <TextInput  placeholder={"Confirm Password"} placeholderTextColor={"white"} style={styleregister.textinput} secureTextEntry={true}></TextInput>
+                    <TextInput  placeholder={"Confirm Password"} placeholderTextColor={"white"} style={styleregister.textinput} secureTextEntry={true} onChangeText={handleConfirmPassWord} onTouchEnd={checkConfirmPassWord}/>
                     <Text
               style={[
                 styleregister.texterror,
@@ -70,7 +107,7 @@ import Loading from '../loading/loading';
               ]}>
               {errorConformPassWord}
             </Text>
-                    <Text style={styleregister.bottom}>REGISTER</Text>
+                    <Text style={styleregister.bottom} onPress={handelRegister}>REGISTER</Text>
 
                 </View>
 
@@ -80,8 +117,20 @@ import Loading from '../loading/loading';
     </ImageBackground>
     );
 }
-
-export default (Register)
+const mapStateToProps = satte =>({
+  Accout:getAccount(state),
+  Register:{
+    error: getRegisterError(state),
+    response: getRegister(state),
+    pending: getRegisterPending(state)
+    }
+})
+const mapDispatchToProps = dispatch => bindActionCreators({
+  RegisterAction : RegisterAPI,
+  AccountAction: changeCount
+  
+}, dispatch);
+export default connect(mapStateToProps, mapDispatchToProps)(Register)
 
 const styleregister=StyleSheet.create({
     container:{
