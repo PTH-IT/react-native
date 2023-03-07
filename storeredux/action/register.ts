@@ -6,16 +6,18 @@ export function RegisterPending() {
   }
 }
 
-export function RegisterSuccess(response) {
+export function RegisterSuccess(response,statuscode) {
   return {
       type: REGISTER_SUCCESS,
-      response: response
+      response: response,
+      statuscode: statuscode
   }
 }
 
-export function RegisterError(error) {
+export function RegisterError(error,statuscode) {
   return {
       type: REGISTER_ERROR,
-      error: error
+      error: error,
+      statuscode: statuscode
   }
 }

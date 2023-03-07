@@ -6,16 +6,18 @@ export function LoginPending() {
   }
 }
 
-export function LoginSuccess(response) {
+export function LoginSuccess(response,statuscode) {
   return {
       type: LOGIN_SUCCESS,
-      response: response
+      response: response,
+      statuscode: statuscode
   }
 }
 
-export function LoginError(error) {
+export function LoginError(error,statuscode) {
   return {
       type: LOGIN_ERROR,
-      error: error
+      error: error,
+      statuscode: statuscode
   }
 }

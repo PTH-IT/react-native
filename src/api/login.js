@@ -17,13 +17,10 @@ import {LoginPending, LoginSuccess, LoginError} from '../../storeredux/action/lo
         url: `${baseUrl}/login`,
         headers:{"Content-Type":"application/json"},
         data:{"UserID": username,"Password": password}
-      }).then((response) => {
-        dispatch(LoginError(null));
-        dispatch(LoginSuccess(response.data));
-            // return response.data;
-      }).catch((error)=>{
-        dispatch(LoginSuccess(null));
-        dispatch(LoginError(error.response.data));
+      }).then(response => {
+        dispatch(LoginSuccess(response.data,response.status));
+      }).catch(error=>{
+        dispatch(LoginError(error.response.data,error.response.status));
       });
 
     }

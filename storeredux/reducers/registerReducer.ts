@@ -3,6 +3,7 @@ const initialState = {
     pending: false,
     response: null,
     error: null,
+    statuscode: null,
   };
 export default function registerReducer(state = initialState , action){
     switch (action.type) {
@@ -14,14 +15,18 @@ export default function registerReducer(state = initialState , action){
         case REGISTER_SUCCESS:
             return {
                 ...state,
-                pending: false,
-                response: action.response
+                response: action.response,
+                error: null,
+                statuscode:  action.statuscode
             }
         case REGISTER_ERROR:
             return {
                 ...state,
                 pending: false,
-                error: action.error
+                response: null,
+                error: action.error,
+                statuscode:  action.statuscode
+
             }
         default: 
             return state;
@@ -30,4 +35,5 @@ export default function registerReducer(state = initialState , action){
 }
 export const getRegister = state => state.Register.response;
 export const getRegisterPending = state => state.Register.pending;
+export const getRegisterStatuscode = state => state.Register.statuscode;
 export const getRegisterError = state => state.Register.error;

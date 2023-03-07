@@ -6,7 +6,7 @@ import Loading from '../loading/loading';
 import React ,{ useEffect } from 'react';
 import LoginAPI from '../../api/login'
 import { bindActionCreators } from 'redux';
-import {getLoginError, getLogin, getLoginPending}  from  '@reduxreducers/loginReducer'
+import {getLoginError, getLogin, getLoginPending , getLoginStatuscode}  from  '@reduxreducers/loginReducer'
 import {getAccount}  from  '@reduxreducers/accountReducer'
 import {LoginPending, LoginSuccess, LoginError} from '@reduxaction/login';
 
@@ -22,11 +22,18 @@ function Login(props) {
   };
   
   useEffect(() => {
+    console.log(API)
     if (API.response != null){
       AsyncStorage.setItem('token',JSON.stringify(API.response))
       props.navigation.navigate('TAB');
+    }else if (API.error  != null && API.statuscode == 403){
+      console.log(API.error["message"])
+      if (API.error["message"] != undefined) {
+      setErrorPassWord(API.error["message"])
+      }
+
     }
-  },[API.pending,API.response]);
+  },[API.pending,API.response,API.error]);
   const handleUserName = event => {
     AccountAction({PassWord: Account.PassWord, UserName: event});
   };
@@ -103,7 +110,8 @@ const mapStateToProps = state => ({
   Account:getAccount(state),
   API:{error: getLoginError(state),
   response: getLogin(state),
-  pending: getLoginPending(state)
+  pending: getLoginPending(state),
+  statuscode:  getLoginStatuscode(state)
   }
 })
 const mapDispatchToProps = dispatch => bindActionCreators({

@@ -23,10 +23,10 @@ import {RegisterPending, RegisterSuccess, RegisterError} from '../../storeredux/
       }
       }).then((response) => {
         dispatch(RegisterError(null));
-        dispatch(RegisterSuccess(response.data));
+        dispatch(RegisterSuccess(response.dataresponse.status));
       }).catch((error)=>{
         dispatch(RegisterSuccess(null));
-        dispatch(RegisterError(error.response.data));
+        dispatch(RegisterError(error.response.data,error.response.status));
       });
 
     }

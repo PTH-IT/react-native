@@ -3,8 +3,10 @@ const initialState = {
   pending: false,
   response: null,
   error: null,
+  statuscode: null,
 };
 const LoginReducer = (state = initialState, action) => {
+  console.log(action)
   switch (action.type) {
     case LOGIN_PENDING: 
             return {
@@ -15,13 +17,17 @@ const LoginReducer = (state = initialState, action) => {
             return {
                 ...state,
                 pending: false,
-                response: action.response
+                response: action.response,
+                error: null,
+                statuscode:  action.statuscode
             }
         case LOGIN_ERROR:
             return {
                 ...state,
                 pending: false,
-                error: action.error
+                response: null,
+                error: action.error,
+                statuscode:  action.statuscode
             }
         default: 
             return state;
@@ -30,4 +36,5 @@ const LoginReducer = (state = initialState, action) => {
 export default LoginReducer;
 export const getLogin = state => state.Login.response;
 export const getLoginPending = state => state.Login.pending;
+export const getLoginStatuscode = state => state.Login.statuscode;
 export const getLoginError = state => state.Login.error;
