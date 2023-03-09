@@ -8,7 +8,7 @@ import {
  function  Default(props)  {
   let {Logging} = props;
 
-    React.useEffect(() => {
+    React.useEffect(() => {  
         props.navigation.navigate(Logging);
 
     }, [Logging]);

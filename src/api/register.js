@@ -1,7 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
 import { connect } from 'react-redux';
-import {changeResponse} from '../../storeredux/action/login';
 
 import {RegisterPending, RegisterSuccess, RegisterError} from '../../storeredux/action/register';
 
@@ -12,6 +11,7 @@ import {RegisterPending, RegisterSuccess, RegisterError} from '../../storeredux/
     dispatch(RegisterPending());
 
     const baseUrl = "https://apigolang-production.up.railway.app"
+
      axios({
         method: 'post',
         url: `${baseUrl}/register`,
@@ -22,10 +22,9 @@ import {RegisterPending, RegisterSuccess, RegisterError} from '../../storeredux/
         "email": email
       }
       }).then((response) => {
-        dispatch(RegisterError(null));
-        dispatch(RegisterSuccess(response.dataresponse.status));
+      
+        dispatch(RegisterSuccess(response.data ,response.status));
       }).catch((error)=>{
-        dispatch(RegisterSuccess(null));
         dispatch(RegisterError(error.response.data,error.response.status));
       });
 
