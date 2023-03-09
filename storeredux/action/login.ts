@@ -1,4 +1,4 @@
-import {LOGIN_PENDING,LOGIN_SUCCESS,LOGIN_ERROR} from '@Constants/constants';
+import {LOGIN_PENDING,LOGIN_SUCCESS,LOGIN_ERROR} from 'constants/constants';
 
 export function LoginPending() {
   return {

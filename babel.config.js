@@ -13,9 +13,12 @@ module.exports = {
         ],
         alias: {
           '~':"./src",
-          '@reduxreducers': './storeredux/reducers',
-          '@reduxaction': './storeredux/action',
-          '@Constants': './storeredux/constants'
+          'reduxreducers': './storeredux/reducers',
+          'action': './storeredux/action',
+          'constants': './storeredux/constants',
+          'config': './config',
+          'components': './src/components',
+          'API': './src/api'
         },
       },
     ],

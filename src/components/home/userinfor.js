@@ -1,26 +1,32 @@
 import { View, StyleSheet, Text,ScrollView } from 'react-native';
 import { Dimensions } from 'react-native';
-import ReadMore from 'react-native-read-more-text';
+import ViewMoreText from 'react-native-view-more-text/index';
 
 
 export default function UserInfor(props) {
     const { description,Keyindex } = props
+  
     return (
-        <View style={styles.information}>
-        <ScrollView showsVerticalScrollIndicator={false}
+        <View style={styles.information}  key={Keyindex}>
+        <ScrollView showsVerticalScrollIndicator={false} removeClippedSubviews={false}
   showsHorizontalScrollIndicator={false} style={styles.fotter}>
   <View >
         <Text style={{fontSize:22,color:"black",marginBottom:5}}>a dinh vlog</Text>
         </View>
-            <ReadMore 
-           key={Keyindex}
-                numberOfLines={2}
-                
-                renderTruncatedFooter={(handlePress) => { return <Text onPress={handlePress} style={{ color: 'grey' }}>show more</Text> }}
-                renderRevealedFooter={(handlePress) => { return <Text onPress={handlePress} style={{ color: 'grey' }}>show less</Text> }}
+            <ViewMoreText 
+          onReady={this._handleTextReady}
+          numberOfLines={3}
+                renderViewMore={(onPress)=>{
+        return(
+          <Text onPress={onPress}>View more</Text>
+        )}}
+          renderViewLess={(onPress)=>{
+        return(
+          <Text onPress={onPress}>View less</Text>
+        )}}
             >
                 <Text style={styles.infortext}>{description}</Text>
-            </ReadMore>
+            </ViewMoreText>
             </ScrollView>
         </View>
     )

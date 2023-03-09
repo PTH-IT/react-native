@@ -1,4 +1,4 @@
-import {LANGUAGES_CHANGE} from '@Constants/constants';
+import {LANGUAGES_CHANGE} from 'constants/constants';
 
 export function changeLanguages(Languages) {
   return {

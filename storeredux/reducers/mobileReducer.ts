@@ -1,10 +1,9 @@
-import {MOBILE_CHANGE} from '@Constants/constants';
+import {MOBILE_CHANGE} from 'constants/constants';
 const initialState = {
     width: 0,
     heidth: 0,
   };
   const MobileReducer = (state = initialState, action) => {
-    console.log(action)
     switch (action.type) {
       case MOBILE_CHANGE: 
               return {

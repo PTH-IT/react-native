@@ -16,15 +16,16 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 const Stack = createNativeStackNavigator();
-import Default from '~/components/default/default';
+import Default from 'components/default/default';
 
-import Login from '~/components/login/login';
-import Register from '~/components/register/register';
-import TabNavigator from '~/components/tabs/tab';
+import Login from 'components/login/login';
+import Register from 'components/register/register';
+import TabNavigator from 'components/tabs/tab';
 import { connect } from 'react-redux';
-import { changeLogging } from '@reduxaction/loging';
-import { changeLanguages } from '@reduxaction/languages';
-import { changeCount } from '@reduxaction/acount';
+import { changeLogging } from 'action/loging';
+import { changeLanguages } from 'action/languages';
+import { changeCount } from 'action/acount';
+import { TokenChange} from 'action/token';
 // import { initializeApp } from "firebase/app";
 // import { getAnalytics } from "firebase/analytics";
 import pushNotification from './src/pushnotification/index'
@@ -45,51 +46,31 @@ import OneSignal from 'react-native-onesignal';
 
 function App(props) {
 
-  let { Logging, changelogging, LanGuages, changeLanguages } = props
+  let { Logging, changelogging, LanGuages, changeLanguages ,changeToken} = props
   React.useEffect(() => {
 
-    //     const app = initializeApp(firebaseConfig);
-    // const analytics = getAnalytics(app);
-    (
-      async () => {
-       
-        OneSignal.setLogLevel(6, 0)
-        OneSignal.setAppId('ebe89988-f3e2-40b2-959c-8079eabc32b7');
-        
-        OneSignal.setNotificationOpenedHandler(notification => {
-          console.log("OneSignal: notification opened:", notification);
-        })
-      })();
+     
 
     (
       async () => {
        
-        OneSignal.setLogLevel(6, 0)
-        OneSignal.setAppId('ebe89988-f3e2-40b2-959c-8079eabc32b7');
-        
-        OneSignal.setNotificationOpenedHandler(notification => {
-          console.log("OneSignal: notification opened:", notification);
+        await AsyncStorage.getItem('language').then((data) => {
+          if (data != null) {
+            changeLanguages("en")
+          }
         })
+       
         //get account from Storage
-        const accountStorage = await AsyncStorage.getItem('token')
-        if (accountStorage != null) {
-          changelogging('TAB')
-        } else {
-          changelogging('LOGIN')
-        }
-
-        //get language from Storage
-        const languageStorage = await AsyncStorage.getItem('language')
-        if (languageStorage != null) {
-          changeLanguages(languageStorage)
-        }
-
+        await AsyncStorage.getItem('token').then((token) => {
+          if (token != null) {
+            jsontoken = JSON.parse(token)
+            changeToken(jsontoken.Authorization,jsontoken.type)
+            changelogging('TAB')
+          } else {
+            changelogging('LOGIN')
+          }
+        })
       })();
-
-
-
-
-
   }, [1]);
 
   return (
@@ -123,6 +104,9 @@ const mapDispatchToProps = dispatch => ({
   },
   changeLanguages: data => {
     dispatch(changeLanguages(data));
+  },
+  changeToken: (token,option) => {
+    dispatch(TokenChange(token,option));
   },
 });
 

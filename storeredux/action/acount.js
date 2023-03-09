@@ -1,4 +1,4 @@
-import {COUNTER_CHANGE} from '@Constants/constants';
+import {COUNTER_CHANGE} from 'constants/constants';
 
 export function changeCount(Account) {
   return {

@@ -1,4 +1,4 @@
-import {REGISTER_PENDING,REGISTER_SUCCESS,REGISTER_ERROR} from '@Constants/constants';
+import {REGISTER_PENDING,REGISTER_SUCCESS,REGISTER_ERROR} from 'constants/constants';
 const initialState = {
     pending: false,
     response: null,

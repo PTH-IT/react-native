@@ -5,17 +5,16 @@ import {
     ImageBackground, TextInput,
     TouchableHighlight, Platform, ActivityIndicator
 } from "react-native";
-import Loading from '../loading/loading';
-import {getRegisterError, getRegister, getRegisterPending}  from  '@reduxreducers/registerReducer'
-import {getAccount}  from  '@reduxreducers/accountReducer'
+import Loading from 'components/loading/loading';
+import {getRegisterError, getRegister, getRegisterPending}  from  'reduxreducers/registerReducer'
+import {getAccount}  from  'reduxreducers/accountReducer'
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import {changeCount} from '@reduxaction/acount';
-import RegisterAPI from '../../api/register'
+import {changeCount} from 'action/acount';
+import RegisterAPI from 'API/register'
 import { useEffect } from "react";
 
  function Register(props){
-  console.log(props)
   const {Account,Register,RegisterAction,AccountAction} = props;
     const [errorName, seterrorName] = React.useState('');
     const [errorUserName, setErrorUserName] = React.useState('');

@@ -1,4 +1,4 @@
-import {COUNTER_CHANGE} from '@Constants/constants';
+import {COUNTER_CHANGE} from 'constants/constants';
 const initialState = {
   UserName: '',
   PassWord: '',

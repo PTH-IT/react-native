@@ -2,23 +2,31 @@ import {View,Text,StyleSheet} from 'react-native';
 import React, { useEffect } from 'react';
 import  Ionicons   from  'react-native-vector-icons/Ionicons';
 import { connect } from 'react-redux';
-import {changeCount} from '../../../storeredux/action/acount';
+import {changeCount} from 'action/acount';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {getAccount}  from  'reduxreducers/accountReducer'
+import {getToken}  from  'reduxreducers/tokenReducer'
+import {bindActionCreators} from 'redux'
+import {MessageWeb} from 'API/socket'
 
 
 
 
-
-
-function Setting(props) {
-  let {changeCount, Acount } = props;
-
-
+function  Setting(props) {
+  let {AccountAction, Acount ,Token} = props;
+ useEffect(() =>{
+  (async() => {
+    await MessageWeb(Token)
+    
+  }) ();
+ },[1])
+  
+ 
   const logoutHandler = () => {
     (async() => {
       await AsyncStorage.removeItem('token')
     }) ();
-    changeCount({PassWord: '', UserName: ''})
+    AccountAction({PassWord: '', UserName: ''})
     props.navigation.navigate('LOGIN');
   }
   return <View  style={style.container}>
@@ -33,12 +41,15 @@ function Setting(props) {
   </View>;
 }
 
-const mapStateToProps = state => state;
-const mapDispatchToProps = dispatch => ({
-  changeCount: data => {
-    dispatch(changeCount(data));
-  },
-});
+const mapStateToProps = state => ({
+  Token:getToken(state),
+  Acount: getAccount(state),
+  
+})
+const mapDispatchToProps = dispatch => bindActionCreators({
+  AccountAction: changeCount,
+  
+}, dispatch);
 export default connect(mapStateToProps, mapDispatchToProps)(Setting);
 
 const style = StyleSheet.create({

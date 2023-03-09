@@ -1,4 +1,4 @@
-import {LOGIN_PENDING,LOGIN_SUCCESS,LOGIN_ERROR} from '@Constants/constants';
+import {LOGIN_PENDING,LOGIN_SUCCESS,LOGIN_ERROR} from 'constants/constants';
 const initialState = {
   pending: false,
   response: null,
@@ -6,7 +6,6 @@ const initialState = {
   statuscode: null,
 };
 const LoginReducer = (state = initialState, action) => {
-  console.log(action)
   switch (action.type) {
     case LOGIN_PENDING: 
             return {

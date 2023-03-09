@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import { Text, View, Image, StyleSheet, Button } from 'react-native';
-import TabHome from '../home/tabhome';
-import Setting from '../setting/setting';
-import Contact from '../contact/contact';
-import Friend  from '../friend/friend';
-import CameraVideo from '../camera/camera'
+import TabHome from 'components/home/tabhome';
+import Setting from 'components/setting/setting';
+import Contact from 'components/contact/contact';
+import Friend  from 'components/friend/friend';
+import CameraVideo from 'components/camera/camera'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import FontAwesome  from 'react-native-vector-icons/FontAwesome';
 import  Ionicons   from  'react-native-vector-icons/Ionicons';
@@ -13,7 +13,7 @@ const Tab = createBottomTabNavigator();
 function TabNavigator(props) {
   return (
 
-    <Tab.Navigator screenOptions={{
+    <Tab.Navigator initialRouteName={"Settings"} screenOptions={{
 
       tabBarStyle: {
         // position: 'absolute',

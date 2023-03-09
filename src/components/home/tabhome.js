@@ -7,10 +7,9 @@ import { View, useWindowDimensions ,Dimensions} from 'react-native';
 import { TabView, SceneMap,TabBar } from 'react-native-tab-view';
 import  Ionicons   from  'react-native-vector-icons/Ionicons';
 
-import {ChangeMobile} from '@reduxaction/mobile';
+import {ChangeMobile} from 'action/mobile';
 
 import { useDispatch } from 'react-redux';
-import MessageWeb from '../../api/socket'
 
 const renderScene = SceneMap({
   first: HomePage,
@@ -19,7 +18,7 @@ const renderScene = SceneMap({
 function TabHome(props) {
   const dispatch =useDispatch()
   const layout = useWindowDimensions();
-  // MessageWeb()
+  
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
     { key: 'first', title: 'First' },

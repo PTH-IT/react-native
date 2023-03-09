@@ -1,4 +1,4 @@
-import {LOGGING_CHANGE} from '@Constants/constants';
+import {LOGGING_CHANGE} from 'constants/constants';
 
 export function changeLogging(logging) {
   return {

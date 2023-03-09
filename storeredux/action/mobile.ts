@@ -1,4 +1,4 @@
-import {MOBILE_CHANGE} from '@Constants/constants';
+import {MOBILE_CHANGE} from 'constants/constants';
 
 
 export function ChangeMobile(width,heidth) {

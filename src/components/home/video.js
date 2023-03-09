@@ -2,8 +2,8 @@ import { View, StyleSheet ,Text} from 'react-native';
 import React, { useEffect,useState } from 'react';
 import Video from 'react-native-video';
 import { Dimensions } from 'react-native';
-import UserInfor from './userinfor'
-import MenuVideo from './menuvideo'
+import UserInfor from 'components/home/userinfor'
+import MenuVideo from 'components/home/menuvideo'
 function VideoHome(props) {
  
   const {videoUri ,description,isActive,Keyindex} = props

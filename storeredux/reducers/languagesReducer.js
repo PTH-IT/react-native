@@ -1,4 +1,4 @@
-import {LANGUAGES_CHANGE} from '@Constants/constants';
+import {LANGUAGES_CHANGE} from 'constants/constants';
 const initialState =  'vn'
 const languagesReducer = (state = initialState, action) => {
   switch (action.type) {
