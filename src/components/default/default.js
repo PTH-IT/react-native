@@ -1,19 +1,18 @@
 import React from "react";
-import {connect} from 'react-redux';
+import { useSelector } from 'react-redux';
 
 
 import {
     StyleSheet, View,
   } from 'react-native';
- function  Default(props)  {
-  let {Logging} = props;
+  export default function  Default(props)  {
+    const device = useSelector((state) => state.Device)
 
     React.useEffect(() => {  
-        props.navigation.navigate(Logging);
+        props.navigation.navigate(device.tab);
 
-    }, [Logging]);
+    }, [device.tab]);
     return (
         <View></View>
     ) 
 }
-export default connect(state => state)(Default)

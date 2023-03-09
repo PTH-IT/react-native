@@ -21,11 +21,7 @@ import Default from 'components/default/default';
 import Login from 'components/login/login';
 import Register from 'components/register/register';
 import TabNavigator from 'components/tabs/tab';
-import { connect } from 'react-redux';
-import { changeLogging } from 'action/loging';
-import { changeLanguages } from 'action/languages';
-import { changeCount } from 'action/acount';
-import { TokenChange} from 'action/token';
+import { useSelector, useDispatch } from 'react-redux';
 // import { initializeApp } from "firebase/app";
 // import { getAnalytics } from "firebase/analytics";
 import pushNotification from './src/pushnotification/index'
@@ -40,23 +36,23 @@ const firebaseConfig = {
 };
 
 import OneSignal from 'react-native-onesignal';
+import {changetoken} from 'features/acountslice';
+import {changeLanguage,changeTab} from 'features/deviceslice';
 
 
 
 
-function App(props) {
-
-  let { Logging, changelogging, LanGuages, changeLanguages ,changeToken} = props
+export default function App(props) {
+  const device = useSelector((state) => state.Device)
+  const dispatch = useDispatch();
   React.useEffect(() => {
-
-     
 
     (
       async () => {
        
         await AsyncStorage.getItem('language').then((data) => {
           if (data != null) {
-            changeLanguages("en")
+            dispatch(changeLanguage(data))
           }
         })
        
@@ -64,10 +60,10 @@ function App(props) {
         await AsyncStorage.getItem('token').then((token) => {
           if (token != null) {
             jsontoken = JSON.parse(token)
-            changeToken(jsontoken.Authorization,jsontoken.type)
-            changelogging('TAB')
+            dispatch(changetoken({"token":jsontoken.Authorization,"tokentype":jsontoken.type}))
+            dispatch(changeTab('TAB'))
           } else {
-            changelogging('LOGIN')
+            dispatch(changeTab('LOGIN'))
           }
         })
       })();
@@ -94,21 +90,4 @@ function App(props) {
 
 };
 
-const mapStateToProps = state => state;
-const mapDispatchToProps = dispatch => ({
-  changeCount: data => {
-    dispatch(changeCount(data));
-  },
-  changelogging: data => {
-    dispatch(changeLogging(data));
-  },
-  changeLanguages: data => {
-    dispatch(changeLanguages(data));
-  },
-  changeToken: (token,option) => {
-    dispatch(TokenChange(token,option));
-  },
-});
 
-
-export default connect(mapStateToProps, mapDispatchToProps)(App)

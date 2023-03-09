@@ -1,66 +1,56 @@
 import {StyleSheet, View, Text, ImageBackground, TextInput } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {connect, createDispatchHook} from 'react-redux';
-import {changeCount} from 'action/acount';
 import Loading from 'components/loading/loading';
 import React ,{ useEffect } from 'react';
-import LoginAPI from 'API/login'
-import { bindActionCreators } from 'redux';
-import {getLoginError, getLogin, getLoginPending , getLoginStatuscode}  from  'reduxreducers/loginReducer'
-import {getAccount}  from  'reduxreducers/accountReducer'
-
-function Login(props) {
-  let {AccountAction, Account ,ApiAction,API} = props;
+import {changelogin,loginTaskAsync} from 'features/acountslice';
+import { useSelector, useDispatch } from 'react-redux';
+export default function Login(props) {
+  const account = useSelector((state) => state.Account.login)
+  const dispatch = useDispatch();
   const [errorUserName, setErrorUserName] = React.useState('');
   const [errorPassWord, setErrorPassWord] = React.useState('');
-
- 
   const register = () => {
-    
     props.navigation.navigate('REGISTER');
   };
   
   useEffect(() => {
-    console.log(API)
-    if (API.response != null){
-      AsyncStorage.setItem('token',JSON.stringify(API.response))
+    if (account.api.response != null){
+      AsyncStorage.setItem('token',JSON.stringify(account.api.response))
       props.navigation.navigate('TAB');
-    }else if (API.error  != null && API.statuscode == 403){
-      console.log(API.error["message"])
-      if (API.error["message"] != undefined) {
-      setErrorPassWord(API.error["message"])
+    }else if (account.api.error  != null && account.api.statuscode == 403){
+      if (account.api.error["message"] != undefined) {
+      setErrorPassWord(account.api.error["message"])
       }
 
     }
-  },[API.pending,API.response,API.error]);
+    console.log(account)
+  },[account.api.pending,account.api.response,account.api.error]);
   const handleUserName = event => {
-    AccountAction({PassWord: Account.PassWord, UserName: event});
+    dispatch(changelogin({PassWord: account.PassWord, UserName: event}));
+   
   };
   const handlePassWord = event => {
-    AccountAction({PassWord: event, UserName: Account.UserName});
+    dispatch(changelogin({PassWord: event, UserName: account.UserName}));
+ 
   };
   const   handleLogin =  () =>  {
     setErrorUserName('');
     setErrorPassWord('');
-
-    if (Account.UserName.length == 0) {
+    if (account.UserName.length == 0 && account.PassWord.length == 0) {
       setErrorUserName('vui long nhap username');
       setErrorPassWord('vui long nhap Password');
-    } else if (Account.UserName.length == 0) {
+    } else if (account.UserName.length == 0) {
       setErrorUserName('vui long nhap username');
-    } else if (Account.PassWord.length == 0) {
+    } else if (account.PassWord.length == 0) {
       setErrorPassWord('vui long nhap Password');
     } else {
-      ApiAction(Account.UserName,Account.PassWord)
-      // AsyncStorage.setItem('account',JSON.stringify(Acount))
-      // props.navigation.navigate('TAB');
-     
+      dispatch(loginTaskAsync({"UserName":account.UserName,"PassWord":account.PassWord}))
     }
   };
 
   return (
     <ImageBackground source={{uri:'https://i.pinimg.com/564x/fa/b2/46/fab246d26cf67ab98164191e9ead0344.jpg'}} style={stylelogin.container}>
-      <Loading display={API.pending ?"flex":"none"}/>
+      <Loading display={account.api.pending ?"flex":"none"}/>
       <View style={stylelogin.containerlogin}>
         <View style={stylelogin.containerregit}>
           <View style={stylelogin.containerinput}>
@@ -105,20 +95,6 @@ function Login(props) {
     </ImageBackground>
   );
 }
-const mapStateToProps = state => ({
-  Account:getAccount(state),
-  API:{error: getLoginError(state),
-  response: getLogin(state),
-  pending: getLoginPending(state),
-  statuscode:  getLoginStatuscode(state)
-  }
-})
-const mapDispatchToProps = dispatch => bindActionCreators({
-  ApiAction : LoginAPI,
-  AccountAction: changeCount
-  
-}, dispatch);
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
 
 const stylelogin = StyleSheet.create({
   container: {

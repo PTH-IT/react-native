@@ -4,13 +4,9 @@ import {
     StyleSheet,
   } from 'react-native';
   import React ,{useEffect}from 'react';
-  import VideoHome from './video'
+  import VideoHome from 'components/home/video'
 import { Dimensions } from 'react-native';
-import {ChangeMobile} from '@reduxaction/mobile';
-import { connect } from 'react-redux';
-import {getWidth,getHeidth}  from  '@reduxreducers/mobileReducer'
-import { bindActionCreators } from 'redux';
-import { TabView, SceneMap,TabBar } from 'react-native-tab-view';
+
 const arrayvideo =    [ 
   { "description" : "Big Buck Bunny tells the story of a giant rabbit with a heart bigger than himself. When one sunny day three rodents rudely harass him, something snaps... and the rabbit ain't no bunny anymore! In the typical cartoon tradition he prepares the nasty rodents a comical revenge.\n\nLicensed under the Creative Commons Attribution license\nhttp://www.bigbuckbunny.org",
   "sources" : [ "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" ],
@@ -91,7 +87,7 @@ const arrayvideo =    [
       "title" : "What care can you get for a grand?"
     }
 ]
-function HomePage(props){
+export default function HomePage(props){
   const [activeVideoIndex, setActiveVideoIndex] = React.useState(0);
  
 return (
@@ -107,7 +103,7 @@ return (
           showsVerticalScrollIndicator={false}
   showsHorizontalScrollIndicator={false}
         renderItem={({ item,index }) =>
-        <VideoHome isActive={activeVideoIndex === index} Keyindex={index} videoUri={item.sources[0]}  description={item.description}/>}
+        <VideoHome isActive={activeVideoIndex === index} Keyindex={index} key={index} videoUri={item.sources[0]}  description={item.description}/>}
         onScroll={e => {
         const index = Math.round(
           e.nativeEvent.contentOffset.y / (Dimensions.get('window').height - 110),
@@ -121,14 +117,7 @@ return (
 }
 
 
-const mapStateToProps = state => ({
-  Mwidth:getWidth(state),
-  Mheidth:getHeidth(state),
-})
-const mapDispatchToProps = dispatch => bindActionCreators({
- MobileAction: ChangeMobile
-}, dispatch);
-export default connect(mapStateToProps, mapDispatchToProps)(HomePage);
+
 const styles = StyleSheet.create({
     container: {
       width: '100%',

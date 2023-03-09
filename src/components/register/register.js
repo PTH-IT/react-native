@@ -6,16 +6,16 @@ import {
     TouchableHighlight, Platform, ActivityIndicator
 } from "react-native";
 import Loading from 'components/loading/loading';
-import {getRegisterError, getRegister, getRegisterPending}  from  'reduxreducers/registerReducer'
-import {getAccount}  from  'reduxreducers/accountReducer'
-import { bindActionCreators } from "redux";
-import { connect } from "react-redux";
-import {changeCount} from 'action/acount';
-import RegisterAPI from 'API/register'
-import { useEffect } from "react";
 
- function Register(props){
-  const {Account,Register,RegisterAction,AccountAction} = props;
+import { useEffect } from "react";
+import { useSelector, useDispatch } from 'react-redux';
+
+import {changeregister,registerTaskAsync} from 'features/acountslice';
+
+export default function Register(props){
+  const account = useSelector((state) => state.Account.register)
+  const dispatch = useDispatch();
+
     const [errorName, seterrorName] = React.useState('');
     const [errorUserName, setErrorUserName] = React.useState('');
     const [errorEmail, seterrorEmail] = React.useState('');
@@ -29,54 +29,55 @@ import { useEffect } from "react";
     seterrorConformPassWord('')
   }
   const handleName = event => {
-    AccountAction({Name: event, UserName: Account.UserName,Email: Account.Email,PassWord: Account.PassWord,ConfirmPassWord: Account.ConfirmPassWord});
+    dispatch(changeregister({Name: event, UserName: account.UserName,Email: account.Email,PassWord: account.PassWord,ConfirmPassWord: account.ConfirmPassWord}));
   };
   const handleUserName = event => {
-    AccountAction({Name: Account.Name, UserName: event,Email: Account.Email,PassWord: Account.PassWord,ConfirmPassWord: Account.ConfirmPassWord});
+    dispatch(changeregister({Name: account.Name, UserName: event,Email: account.Email,PassWord: account.PassWord,ConfirmPassWord: account.ConfirmPassWord}));
   };
   const handleEmail = event => {
-    AccountAction({Name: Account.Name, UserName: Account.UserName,Email: event,PassWord: Account.PassWord,ConfirmPassWord: Account.ConfirmPassWord,});
+    dispatch(changeregister({Name: account.Name, UserName: account.UserName,Email: event,PassWord: account.PassWord,ConfirmPassWord: account.ConfirmPassWord,}));
   };
   const handlePassWord = event => {
-    AccountAction({Name: Account.Name, UserName: Account.UserName,Email: Account.Email,PassWord: event,ConfirmPassWord: Account.ConfirmPassWord});
+    dispatch(changeregister({Name: account.Name, UserName: account.UserName,Email: account.Email,PassWord: event,ConfirmPassWord: account.ConfirmPassWord}));
   };
   const handleConfirmPassWord = event => {
     seterrorConformPassWord('')
-    AccountAction({Name: Account.Name, UserName: Account.UserName,Email: Account.Email,PassWord: Account.PassWord,ConfirmPassWord: event});
+    dispatch(changeregister({Name: account.Name, UserName: account.UserName,Email: account.Email,PassWord: account.PassWord,ConfirmPassWord: event}));
   };
   const checkConfirmPassWord = event => {
-    if (Account.ConfirmPassWord != Account.PassWord){
+    if (account.ConfirmPassWord != account.PassWord){
       seterrorConformPassWord("confirm password is  wrong")
     }
   };
   const handelRegister = event => {
-    if (  Account.Name.length == 0 ){
+    if (  account.Name.length == 0 ){
       seterrorName("please enter name")
 
     }
-    else if ( Account.UserName.length == 0 ){
+    else if ( account.UserName.length == 0 ){
       setErrorUserName("please enter username")
 
     } 
-    else if ( Account.Email.length == 0 ){
+    else if ( account.Email.length == 0 ){
       seterrorEmail("please enter email address")
     }
-    else if ( Account.PassWord.length == 0 ){
+    else if ( account.PassWord.length == 0 ){
       setErrorPassWord("please enter password")
     }
-    else if (  Account.ConfirmPassWord != Account.PassWord){
+    else if (  account.ConfirmPassWord != account.PassWord){
       seterrorConformPassWord("confirm password is  wrong")
     }
     else {
-      RegisterAction(Account.UserName, Account.PassWord, Account.Email,)
+      resetState()
+      dispatch( registerTaskAsync({"UserName":account.UserName,"PassWord": account.PassWord, "Email":account.Email}))
     }
   }
 
   useEffect(() => {
-    if (Register.response != null){
+    if (account.api.response != null){
       props.navigation.navigate('LOGIN');
-    }else if (Register.error != null){
-      Register.error.forEach( (element,index) => {
+    }else if (account.api.error != null){
+      account.api.error.forEach( (element,index) => {
         if (element.type == "username"){
           setErrorUserName("username is exist")
         }
@@ -87,11 +88,11 @@ import { useEffect } from "react";
       });
     }
 
-  },[Register.pending,Register.response]);
+  },[account.api.pending,account.api.response]);
   
     return (
         <ImageBackground source={{uri:'https://i.pinimg.com/564x/fa/b2/46/fab246d26cf67ab98164191e9ead0344.jpg'}}  style={styleregister.container}>
- <Loading display={Register.pending ?"flex":"none"}/>
+ <Loading display={account.api.pending ?"flex":"none"}/>
         <View style={styleregister.containerlogin}>
 
             <View style={styleregister.containerregit}>
@@ -155,20 +156,7 @@ import { useEffect } from "react";
     </ImageBackground>
     );
 }
-const mapStateToProps = state =>({
-  Account:getAccount(state),
-  Register:{
-    error: getRegisterError(state),
-    response: getRegister(state),
-    pending: getRegisterPending(state)
-    }
-})
-const mapDispatchToProps = dispatch => bindActionCreators({
-  RegisterAction : RegisterAPI,
-  AccountAction: changeCount
-  
-}, dispatch);
-export default connect(mapStateToProps, mapDispatchToProps)(Register)
+
 
 const styleregister=StyleSheet.create({
     container:{

@@ -1,22 +1,16 @@
 import {View,Text,StyleSheet} from 'react-native';
 import React, { useEffect } from 'react';
 import  Ionicons   from  'react-native-vector-icons/Ionicons';
-import { connect } from 'react-redux';
-import {changeCount} from 'action/acount';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {getAccount}  from  'reduxreducers/accountReducer'
-import {getToken}  from  'reduxreducers/tokenReducer'
-import {bindActionCreators} from 'redux'
-import {MessageWeb} from 'API/socket'
 
 
 
 
-function  Setting(props) {
-  let {AccountAction, Acount ,Token} = props;
+
+export default  function  Setting(props) {
  useEffect(() =>{
   (async() => {
-    await MessageWeb(Token)
+    // await MessageWeb(Token)
     
   }) ();
  },[1])
@@ -26,7 +20,6 @@ function  Setting(props) {
     (async() => {
       await AsyncStorage.removeItem('token')
     }) ();
-    AccountAction({PassWord: '', UserName: ''})
     props.navigation.navigate('LOGIN');
   }
   return <View  style={style.container}>
@@ -41,16 +34,7 @@ function  Setting(props) {
   </View>;
 }
 
-const mapStateToProps = state => ({
-  Token:getToken(state),
-  Acount: getAccount(state),
-  
-})
-const mapDispatchToProps = dispatch => bindActionCreators({
-  AccountAction: changeCount,
-  
-}, dispatch);
-export default connect(mapStateToProps, mapDispatchToProps)(Setting);
+
 
 const style = StyleSheet.create({
   container: {

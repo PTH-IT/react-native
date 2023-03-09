@@ -5,9 +5,6 @@ import setting from '../setting/setting';
 import * as React from 'react';
 import { View, useWindowDimensions ,Dimensions} from 'react-native';
 import { TabView, SceneMap,TabBar } from 'react-native-tab-view';
-import  Ionicons   from  'react-native-vector-icons/Ionicons';
-
-import {ChangeMobile} from 'action/mobile';
 
 import { useDispatch } from 'react-redux';
 
@@ -31,7 +28,7 @@ function TabHome(props) {
      onLayout={(event) => {
     
     var {x, y, width, height} = event.nativeEvent.layout;
-    dispatch(ChangeMobile(width,height))
+
     console.log(width,height)
     console.log(Dimensions.get('window').height - 110)
   }}
