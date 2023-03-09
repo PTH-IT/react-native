@@ -4,6 +4,6 @@ import devideSlice from 'features/deviceslice';
 export const store = configureStore({
   reducer: {
     Account: accountSlice,
-    Device:devideSlice,
+    Device:devideSlice
   },
 })

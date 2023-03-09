@@ -4,19 +4,39 @@ import Loading from 'components/loading/loading';
 import React ,{ useEffect } from 'react';
 import {changelogin,loginTaskAsync} from 'features/acountslice';
 import { useSelector, useDispatch } from 'react-redux';
+import { useNavigation } from "@react-navigation/native";
+import { CommonActions } from '@react-navigation/native';
+
+
+
 export default function Login(props) {
   const account = useSelector((state) => state.Account.login)
   const dispatch = useDispatch();
   const [errorUserName, setErrorUserName] = React.useState('');
   const [errorPassWord, setErrorPassWord] = React.useState('');
+  const navigation = useNavigation();
   const register = () => {
-    props.navigation.navigate('REGISTER');
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 0,
+        routes: [
+          { name: 'REGISTER', },
+        ],
+      })
+    )
   };
   
   useEffect(() => {
     if (account.api.response != null){
       AsyncStorage.setItem('token',JSON.stringify(account.api.response))
-      props.navigation.navigate('TAB');
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 0,
+          routes: [
+            { name: 'TAB', },
+          ],
+        })
+      )
     }else if (account.api.error  != null && account.api.statuscode == 403){
       if (account.api.error["message"] != undefined) {
       setErrorPassWord(account.api.error["message"])

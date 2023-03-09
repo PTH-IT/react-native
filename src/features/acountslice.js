@@ -55,7 +55,7 @@ export const loginTaskAsync = createAsyncThunk(
       try {
         var {UserName, PassWord} =user
       const response = await LoginAPI(UserName, PassWord)
-        return JSON.parse(response)
+        return response
       }
       catch (err) {
         let error = err // cast the error for access
@@ -70,11 +70,11 @@ export const loginTaskAsync = createAsyncThunk(
 
   export const registerTaskAsync = createAsyncThunk(
     'Account/apiregister',
-    async (user,{ rejectWithValue }) => {
+    async (user,{ rejectWithValue ,fulfillWithValue}) => {
       try {
         var {UserName, PassWord ,Email} =user
       const response = await RegisterAPI(UserName, PassWord,Email)
-        return JSON.parse(response)
+        return response
       }
       catch (err) {
         let error = err // cast the error for access
@@ -94,7 +94,7 @@ export const loginTaskAsync = createAsyncThunk(
     async (Authorization,{ rejectWithValue }) => {
       try {
       const response = await LogoutAPI(Authorization)
-        return JSON.parse(response)
+        return response
       }
       catch (err) {
         let error = err // cast the error for access
@@ -168,16 +168,16 @@ export const accountSlice = createSlice({
         state.register.api.statuscode = action.payload.status
       })
       //logout api
-      builder.addCase(loginTaskAsync.pending, (state) => {
+      builder.addCase(logoutTaskAsync.pending, (state) => {
         state.logout.api.pending = true;
       })
-      builder.addCase(loginTaskAsync.fulfilled, (state, action) => {
+      builder.addCase(logoutTaskAsync.fulfilled, (state, action) => {
         state.logout.api.pending = false
         state.logout.api.response = action.payload.data
         state.logout.api.error = null
         state.logout.api.statuscode = action.payload.status
       })
-      builder.addCase(loginTaskAsync.rejected, (state, action) => {
+      builder.addCase(logoutTaskAsync.rejected, (state, action) => {
         state.logout.api.pending = false
         state.logout.api.response = null
         state.logout.api.error = action.payload.data

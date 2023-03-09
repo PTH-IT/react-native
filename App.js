@@ -43,7 +43,6 @@ import {changeLanguage,changeTab} from 'features/deviceslice';
 
 
 export default function App(props) {
-  const device = useSelector((state) => state.Device)
   const dispatch = useDispatch();
   React.useEffect(() => {
 
