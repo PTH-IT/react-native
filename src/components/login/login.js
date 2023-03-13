@@ -2,7 +2,7 @@ import {StyleSheet, View, Text, ImageBackground, TextInput } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Loading from 'components/loading/loading';
 import React ,{ useEffect } from 'react';
-import {changelogin,loginTaskAsync} from 'features/acountslice';
+import {changelogin,loginTaskAsync,changetoken} from 'features/acountslice';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigation } from "@react-navigation/native";
 import { CommonActions } from '@react-navigation/native';
@@ -17,18 +17,13 @@ export default function Login(props) {
   const navigation = useNavigation();
   const register = () => {
     navigation.dispatch(
-      CommonActions.reset({
-        index: 0,
-        routes: [
-          { name: 'REGISTER', },
-        ],
-      })
+      CommonActions.navigate({name: 'REGISTER'})
     )
   };
   
   useEffect(() => {
-    if (account.api.response != null){
-      AsyncStorage.setItem('token',JSON.stringify(account.api.response))
+    if (account.api.response != null && account.api.statuscode == 200 ){
+      dispatch(changetoken({"token":account.api.response.Authorization,"tokentype":account.api.response.type}))
       navigation.dispatch(
         CommonActions.reset({
           index: 0,
@@ -37,6 +32,9 @@ export default function Login(props) {
           ],
         })
       )
+
+      AsyncStorage.setItem('token',JSON.stringify(account.api.response))
+      
     }else if (account.api.error  != null && account.api.statuscode == 403){
       if (account.api.error["message"] != undefined) {
       setErrorPassWord(account.api.error["message"])
@@ -44,7 +42,7 @@ export default function Login(props) {
 
     }
     console.log(account)
-  },[account.api.pending,account.api.response,account.api.error]);
+  },[account.api.response,account.api.error]);
   const handleUserName = event => {
     dispatch(changelogin({PassWord: account.PassWord, UserName: event}));
    
@@ -53,7 +51,7 @@ export default function Login(props) {
     dispatch(changelogin({PassWord: event, UserName: account.UserName}));
  
   };
-  const   handleLogin =  () =>  {
+  const   handleLogin =  event =>  {
     setErrorUserName('');
     setErrorPassWord('');
     if (account.UserName.length == 0 && account.PassWord.length == 0) {

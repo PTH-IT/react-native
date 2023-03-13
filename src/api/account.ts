@@ -8,6 +8,7 @@ import {baseUrl} from 'config/config'
         method: 'post',
         url: `${baseUrl}/login`,
         headers:{
+          'Access-Control-Allow-Origin':"*",
           'accept': 'application/json',
           'Content-Type':'application/json',
           'Content-Length': JSON.stringify(body).length.toString(),
@@ -30,6 +31,7 @@ export  function RegisterAPI(username, password,email)  {
         method: 'post',
         url: `${baseUrl}/register`,
         headers:{
+          'Access-Control-Allow-Origin':"*",
           'accept': 'application/json',
           'Content-Type':'application/json',
           'Content-Length': JSON.stringify(body).length.toString(),
@@ -43,9 +45,10 @@ export  function RegisterAPI(username, password,email)  {
 export  function LogoutAPI(Authorization)  {
 
     return axios({
-        method: 'post',
+        method: 'get',
         url: `${baseUrl}/logout`,
         headers:{
+          'Access-Control-Allow-Origin':"*",
           'accept': 'application/json',
           'Content-Type':'application/json',
           'Authorization': Authorization,

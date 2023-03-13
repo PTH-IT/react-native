@@ -2,8 +2,7 @@ import React from "react";
 import {
   StyleSheet,
   View, Text, Image,
-  ImageBackground, TextInput,
-  TouchableHighlight, Platform, ActivityIndicator
+  ImageBackground, TextInput,KeyboardAvoidingView ,ScrollView,Dimensions
 } from "react-native";
 import Loading from 'components/loading/loading';
 
@@ -13,6 +12,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { changeregister, registerTaskAsync } from 'features/acountslice';
 import { useNavigation } from "@react-navigation/native";
 import { CommonActions } from '@react-navigation/native';
+
 export default function Register(props) {
   const account = useSelector((state) => state.Account.register)
   const dispatch = useDispatch();
@@ -22,6 +22,8 @@ export default function Register(props) {
   const [errorEmail, seterrorEmail] = React.useState('');
   const [errorPassWord, setErrorPassWord] = React.useState('');
   const [errorConformPassWord, seterrorConformPassWord] = React.useState('');
+
+
   const resetState = event => {
     seterrorName('')
     setErrorUserName('')
@@ -73,7 +75,7 @@ export default function Register(props) {
       dispatch(registerTaskAsync({ "UserName": account.UserName, "PassWord": account.PassWord, "Email": account.Email }))
     }
   }
-
+  console.log(Dimensions.get('window').height)
   useEffect(() => {
     if (account.api.response != null) {
       navigation.dispatch(
@@ -97,9 +99,13 @@ export default function Register(props) {
     }
 
   }, [account.api.pending, account.api.response]);
-
+console.log()
   return (
-    <ImageBackground source={{ uri: 'https://i.pinimg.com/564x/fa/b2/46/fab246d26cf67ab98164191e9ead0344.jpg' }} style={styleregister.container}>
+    <ScrollView>
+    <KeyboardAvoidingView style={{ flex: 1, flexDirection: 'column',justifyContent: 'center',}}  enabled  >
+  
+    <ImageBackground source={{ uri: 'https://i.pinimg.com/564x/fa/b2/46/fab246d26cf67ab98164191e9ead0344.jpg' }} style={[styleregister.container]}>
+    
       <Loading display={account.api.pending ? "flex" : "none"} />
       <View style={styleregister.containerlogin}>
 
@@ -160,8 +166,12 @@ export default function Register(props) {
 
 
         </View>
-      </View>
+      </View>   
+      
     </ImageBackground>
+    </KeyboardAvoidingView>
+      </ScrollView>
+ 
   );
 }
 
@@ -171,8 +181,8 @@ const styleregister = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    width: null,
-    height: null,
+    width: '100%',
+    height: Dimensions.get('window').height,
     resizeMode: "center",
 
 

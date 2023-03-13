@@ -93,6 +93,7 @@ export const loginTaskAsync = createAsyncThunk(
     'Account/apilogout',
     async (Authorization,{ rejectWithValue }) => {
       try {
+        console.log(Authorization)
       const response = await LogoutAPI(Authorization)
         return response
       }
@@ -140,6 +141,7 @@ export const accountSlice = createSlice({
         state.login.api.pending = true;
       })
       builder.addCase(loginTaskAsync.fulfilled, (state, action) => {
+        state.logout = initialState.logout
         state.login.api.pending = false
         state.login.api.response = action.payload.data
         state.login.api.error = null
@@ -172,6 +174,7 @@ export const accountSlice = createSlice({
         state.logout.api.pending = true;
       })
       builder.addCase(logoutTaskAsync.fulfilled, (state, action) => {
+        state.login = initialState.login
         state.logout.api.pending = false
         state.logout.api.response = action.payload.data
         state.logout.api.error = null

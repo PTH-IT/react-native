@@ -10,7 +10,7 @@
 
 import React from 'react';
 import {
-  StyleSheet, View,
+  StyleSheet, View,Dimensions
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NavigationContainer } from '@react-navigation/native';
@@ -37,7 +37,7 @@ const firebaseConfig = {
 
 import OneSignal from 'react-native-onesignal';
 import {changetoken} from 'features/acountslice';
-import {changeLanguage,changeTab} from 'features/deviceslice';
+import {changeLanguage,changeTab,changeSize} from 'features/deviceslice';
 
 
 
@@ -57,6 +57,8 @@ export default function App(props) {
        
         //get account from Storage
         await AsyncStorage.getItem('token').then((token) => {
+          console.log(Dimensions.get('window').height)
+          dispatch(changeSize({"heidth":Dimensions.get('window').height,"width":Dimensions.get('window').width}))
           if (token != null) {
             jsontoken = JSON.parse(token)
             dispatch(changetoken({"token":jsontoken.Authorization,"tokentype":jsontoken.type}))
@@ -70,10 +72,10 @@ export default function App(props) {
 
   return (
 
-    <NavigationContainer >
+    <NavigationContainer  >
       <Stack.Navigator initialRouteName={"DEFAULT"}  >
         <Stack.Group>
-          <Stack.Screen name="DEFAULT" component={Default} options={{ headerShown: false }} />
+          <Stack.Screen name="DEFAULT" component={Default} options={{ headerShown: false }}  />
           <Stack.Screen name="LOGIN" component={Login} options={{ headerShown: false }} />
           <Stack.Screen name={"REGISTER"} component={Register} />
 
